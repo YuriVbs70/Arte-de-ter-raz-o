@@ -1,3 +1,5 @@
-# kit-visual-casa-organizada
+# A Arte de Ter Razão
 
-[![Open in Bolt](https://bolt.new/static/open-in-bolt.svg)](https://bolt.new/~/sb1-dnfybbmd)
+Landing page do guia visual com 38 estratégias de argumentação.
+
+Antes de publicar, copie `.env.example` para `.env` e preencha `VITE_CHECKOUT_URL` com o checkout real do produto.

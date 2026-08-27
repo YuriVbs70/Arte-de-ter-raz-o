@@ -1,8 +1,8 @@
 @layer base {
   html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-  body { margin: 0; min-width: 320px; background: #fff8f3; font-family: 'Inter', system-ui, sans-serif; color: #352c29; }
+  body { margin: 0; min-width: 320px; background: #0b0b0b; font-family: 'Inter', system-ui, sans-serif; color: #f7f1e5; }
   button, input { font: inherit; }
-  ::selection { background: #f3c8bf; color: #352c29; }
+  ::selection { background: #d7a52a; color: #17130b; }
 }
 
 @tailwind base;
@@ -12,18 +12,48 @@
 
 
 @layer components {
-  .eyebrow { @apply text-xs font-black uppercase tracking-[0.2em] text-[#B65347]; }
-  .eyebrow-light { @apply text-xs font-black uppercase tracking-[0.2em] text-[#F2A99D]; }
-  .section-title { @apply mt-3 text-3xl font-bold leading-tight text-neutral-900 md:text-4xl; font-family: 'Spectral', Georgia, serif; }
-  .section-copy { @apply mt-4 leading-relaxed text-neutral-700; }
+  .eyebrow { @apply text-xs font-black uppercase tracking-[0.2em] text-[#9A6B08]; }
+  .eyebrow-light { @apply text-xs font-black uppercase tracking-[0.2em] text-[#F0BD3C]; }
+  .section-title { @apply mt-3 text-3xl font-black leading-tight text-[#1A1712] md:text-4xl; }
+  .section-copy { @apply mt-4 leading-relaxed text-[#655A48]; }
 }
-
-@keyframes showcase-scroll-right {
-  from { transform: translateX(calc(-50% - 0.625rem)); }
-  to { transform: translateX(0); }
+@keyframes showcase-scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 0.5rem)); }
 }
 
 .showcase-track {
-  animation: showcase-scroll-right 28s linear infinite;
+  animation: showcase-scroll-left 32s linear infinite;
   will-change: transform;
 }
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[data-live-editable="true"] {
+  cursor: text;
+  border-radius: 0.35rem;
+  outline: 2px dashed rgba(215, 165, 42, 0.75);
+  outline-offset: 4px;
+}
+
+[data-live-editable="true"]:focus {
+  outline-style: solid;
+  outline-color: #f0bd3c;
+  background: rgba(215, 165, 42, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-track {
+    animation: none;
+  }
+}
+
