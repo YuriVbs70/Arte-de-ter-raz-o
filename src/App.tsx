@@ -15,16 +15,17 @@ import {
 } from "lucide-react";
 
 const CHECKOUT_URL = (import.meta.env.VITE_CHECKOUT_URL as string | undefined)?.trim();
+const EXIT_CHECKOUT_URL = (import.meta.env.VITE_EXIT_CHECKOUT_URL as string | undefined)?.trim();
 const PRODUCT_PRICE = (import.meta.env.VITE_PRODUCT_PRICE as string | undefined)?.trim() || "R$ 27,90";
 const REFERENCE_PRICE = (import.meta.env.VITE_REFERENCE_PRICE as string | undefined)?.trim() || "R$ 64";
 
 const strategyPages = [
-  { src: "/produto-final-estrategia-03.webp", alt: "Estratégia 3: transforme uma afirmação relativa em absoluta" },
-  { src: "/produto-final-estrategia-08.webp", alt: "Estratégia 8: irrite para tirar o adversário do controle" },
-  { src: "/produto-final-estrategia-14.webp", alt: "Estratégia 14: declare vitória antes de responder" },
-  { src: "/produto-final-estrategia-21.webp", alt: "Estratégia 21: responda a um truque com outro truque" },
-  { src: "/produto-final-estrategia-29.webp", alt: "Estratégia 29: mude de assunto quando estiver perdendo" },
-  { src: "/produto-final-estrategia-35.webp", alt: "Estratégia 35: mostre que a tese prejudica quem a defende" },
+  { src: "/produto-atualizado-pagina-03.png", alt: "Estratégia 2: troque o sentido da palavra" },
+  { src: "/produto-atualizado-pagina-08.png", alt: "Estratégia 7: faça perguntas até construir uma conclusão" },
+  { src: "/produto-atualizado-pagina-14.png", alt: "Estratégia 13: apresente duas opções, sendo uma inaceitável" },
+  { src: "/produto-atualizado-pagina-21.png", alt: "Estratégia 20: dê como aceito o que não foi discutido" },
+  { src: "/produto-atualizado-pagina-29.png", alt: "Estratégia 28: ridicularize para conquistar a plateia" },
+  { src: "/produto-atualizado-pagina-37.png", alt: "Estratégia 36: confunda com palavras complicadas" },
 ];
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -101,6 +102,37 @@ function CheckoutNotice({ open, onClose }: { open: boolean; onClose: () => void 
   );
 }
 
+function ExitOffer({ open, onClose, onAccept }: { open: boolean; onClose: () => void; onAccept: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => event.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[130] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="exit-offer-title">
+      <button className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose} aria-label="Fechar oferta" />
+      <article className="relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-[#E7BC4D] bg-[#F8F2E7] text-center text-[#17130B] shadow-[0_30px_100px_rgba(0,0,0,.7)]">
+        <div className="bg-[#111] px-6 py-3 text-xs font-black uppercase tracking-[.2em] text-[#F2C24C]">Uma condição especial antes de sair</div>
+        <button onClick={onClose} className="absolute right-4 top-14 rounded-full p-2 text-[#756A55] transition hover:bg-black/5" aria-label="Fechar"><X className="h-5 w-5" /></button>
+        <div className="p-7 sm:p-9">
+          <p className="text-sm font-black uppercase tracking-[.18em] text-[#9B6D0A]">Oferta exclusiva</p>
+          <h2 id="exit-offer-title" className="mt-3 text-3xl font-black leading-tight">Não deixe essa oportunidade passar.</h2>
+          <p className="mt-3 leading-relaxed text-[#665B48]">Não fique fora do jogo. Irei te dar uma condição especial.</p>
+          <div className="my-6 flex items-end justify-center gap-3"><span className="pb-2 text-lg font-bold text-[#80745E] line-through">R$ 27,90</span><span className="text-5xl font-black tracking-tight">R$ 19,90</span></div>
+          <button onClick={onAccept} className="group flex w-full items-center justify-center gap-2 rounded-xl bg-[#D7A52A] px-6 py-4 text-sm font-black uppercase tracking-[.08em] text-[#17130B] shadow-xl transition hover:bg-[#E8B638]">Quero aproveitar por R$ 19,90<ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" /></button>
+          <button onClick={onClose} className="mt-4 text-sm font-semibold text-[#766B57] underline-offset-4 hover:underline">Não, obrigado</button>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 function CtaButton({ onClick, label = "Quero dominar as 38 estratégias", dark = false }: { onClick: () => void; label?: string; dark?: boolean }) {
   return (
     <button onClick={onClick} className={`group inline-flex items-center justify-center gap-2 rounded-xl px-7 py-4 text-sm font-black uppercase tracking-[.08em] transition active:scale-[.98] ${dark ? "bg-[#111] text-[#F4C44D] shadow-xl hover:bg-black" : "bg-[#D7A52A] text-[#17130B] shadow-[0_12px_36px_rgba(215,165,42,.28)] hover:bg-[#E8B638]"}`}>
@@ -112,6 +144,9 @@ function CtaButton({ onClick, label = "Quero dominar as 38 estratégias", dark =
 export default function App() {
   const countdown = useCountdown(17 * 60);
   const [checkoutNoticeOpen, setCheckoutNoticeOpen] = useState(false);
+  const [exitOfferOpen, setExitOfferOpen] = useState(false);
+  const [exitOfferEligible, setExitOfferEligible] = useState(false);
+  const [exitOfferShown, setExitOfferShown] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
   const publicFiguresRef = useRef<HTMLDivElement>(null);
@@ -124,6 +159,62 @@ export default function App() {
     }
     setCheckoutNoticeOpen(true);
   };
+  const goToExitCheckout = () => {
+    if (EXIT_CHECKOUT_URL) {
+      window.location.assign(EXIT_CHECKOUT_URL);
+      return;
+    }
+    setExitOfferOpen(false);
+    setCheckoutNoticeOpen(true);
+  };
+
+  useEffect(() => {
+    const offer = document.getElementById("oferta");
+    if (!offer || sessionStorage.getItem("exit-offer-shown-v2") === "true") return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setExitOfferEligible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.25 });
+    observer.observe(offer);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!exitOfferEligible || exitOfferShown) return;
+    let backGuardActive = false;
+    const showExitOffer = () => {
+      if (exitOfferShown || sessionStorage.getItem("exit-offer-shown-v2") === "true") return;
+      sessionStorage.setItem("exit-offer-shown-v2", "true");
+      setExitOfferShown(true);
+      setExitOfferOpen(true);
+    };
+    const onMouseOut = (event: MouseEvent) => {
+      if (event.clientY <= 10) showExitOffer();
+    };
+    const onMouseLeave = (event: MouseEvent) => {
+      if (event.clientY <= 10) showExitOffer();
+    };
+    const onPopState = () => {
+      if (backGuardActive) {
+        backGuardActive = false;
+        showExitOffer();
+      }
+    };
+    document.addEventListener("mouseout", onMouseOut);
+    document.documentElement.addEventListener("mouseleave", onMouseLeave);
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      window.history.pushState({ exitOfferGuard: true }, "", window.location.href);
+      backGuardActive = true;
+      window.addEventListener("popstate", onPopState);
+    }
+    return () => {
+      document.removeEventListener("mouseout", onMouseOut);
+      document.documentElement.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, [exitOfferEligible, exitOfferShown]);
 
   useEffect(() => {
     const root = pageRef.current;
@@ -161,6 +252,7 @@ export default function App() {
   return (
     <div ref={pageRef} className="min-h-screen bg-[#0B0B0B] text-white antialiased">
       <CheckoutNotice open={checkoutNoticeOpen} onClose={() => setCheckoutNoticeOpen(false)} />
+      <ExitOffer open={exitOfferOpen} onClose={() => setExitOfferOpen(false)} onAccept={goToExitCheckout} />
       <button type="button" onClick={() => setEditMode((active) => !active)} className={`fixed bottom-5 right-5 z-[100] flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-black shadow-2xl transition ${editMode ? "border-[#F0CE78] bg-[#D7A52A] text-[#17130B]" : "border-[#D7A52A]/50 bg-[#111] text-[#F0BD3C] hover:border-[#D7A52A]"}`} aria-pressed={editMode}>{editMode ? <Save className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}{editMode ? "Salvar textos" : "Editar textos"}</button>
 
       <header className="relative overflow-hidden border-b border-[#D7A52A]/20 bg-[#080808]">
@@ -180,14 +272,14 @@ export default function App() {
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/90 lg:bg-gradient-to-r lg:from-black/95 lg:via-black/60 lg:to-black/25" />
         <div className="relative z-10 mx-auto grid min-h-[calc(100svh-68px)] max-w-7xl items-center gap-7 px-5 py-8 sm:min-h-[820px] sm:px-7 sm:py-12 lg:min-h-[760px] lg:grid-cols-[.88fr_1.12fr] lg:grid-rows-[auto_auto] lg:gap-x-10 lg:gap-y-6 lg:px-5 lg:py-20">
           <div className="lg:col-start-1 lg:row-start-1">
-            <h1 className="max-w-3xl text-[2.55rem] font-black leading-[1.02] tracking-[-.04em] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,.9)] sm:text-5xl md:text-6xl">Tenha um resumo visual rápido e consultável de 38 estratégias para nunca mais ser enganado ou perder um debate.</h1>
+            <h1 className="max-w-3xl text-[2.55rem] font-black leading-[1.02] tracking-[-.04em] text-white drop-shadow-[0_3px_12px_rgba(0,0,0,.9)] sm:text-5xl md:text-6xl">Tenha um resumo visual de 38 estratégias para nunca mais ser enganado ou perder um debate.</h1>
           </div>
           <div className="relative mx-auto flex h-[290px] w-full max-w-[620px] items-center justify-center sm:h-[390px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[570px] lg:max-w-[760px]">
             <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-[#D7A52A]/15 blur-3xl" />
             <img src="/mockup-produto-transparente-v8.png" alt="Coleção completa Nunca Mais Perca Uma Discussão" fetchPriority="high" className="relative h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,.8)]" />
           </div>
           <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
-            <p className="mx-auto max-w-2xl text-center text-xl font-semibold leading-relaxed text-[#EEE8DC] drop-shadow-[0_2px_6px_rgba(0,0,0,1)] sm:text-2xl lg:text-xl lg:text-[#D4CEC2]">Um kit pronto para consulta e esteja preparado quando tentarem manipular o que você disse.</p>
+            <p className="mx-auto max-w-2xl text-center text-xl font-semibold leading-relaxed text-[#EEE8DC] drop-shadow-[0_2px_6px_rgba(0,0,0,1)] sm:text-2xl lg:text-xl lg:text-[#D4CEC2]">Um kit visual pronto para consulta e para que você esteja preparado quando tentarem te manipular.</p>
             <div className="mt-5 flex justify-center lg:mt-6"><CtaButton onClick={scrollToOffer} /></div>
           </div>
         </div>
@@ -330,7 +422,7 @@ export default function App() {
             <div aria-hidden="true" className="absolute -inset-2 rounded-[2.5rem] bg-gradient-to-br from-[#F4CD68] via-[#A87918] to-[#4A3107] shadow-[0_0_55px_rgba(215,165,42,.22)]" />
             <article className="relative overflow-hidden rounded-[2rem] border border-[#F0CE78] bg-[#F8F2E7] text-[#17130B] shadow-[0_30px_80px_rgba(0,0,0,.55)]">
               <div className="bg-[#111] px-6 py-4 text-center text-xs font-black uppercase tracking-[.2em] text-[#F2C24C]">Acesso completo • pagamento único</div>
-              <div className="p-7 md:p-9"><h3 className="text-2xl font-black">Kit visual para nunca perder um debate</h3><p className="mt-2 text-[#685D49]">Todas as 38 estratégias já decifradas.</p><div className="my-7 rounded-2xl border border-[#CDB77E] bg-[#EEE1C5]/75 px-4 py-7 text-center shadow-inner"><p className="text-sm font-bold uppercase tracking-widest text-[#786A4C]">Valor total <span>{REFERENCE_PRICE}</span> • por apenas</p><div className="mt-2 flex flex-wrap items-center justify-center gap-3"><p className="text-6xl font-black tracking-tight text-[#17130B]">{PRODUCT_PRICE}</p><span className="text-xs font-semibold text-[#52785B]/70">56% de desconto</span></div><p className="mt-2 text-sm font-semibold text-[#6D624E]">Pagamento único • garantia premium de 7 dias</p></div><div className="mb-8 space-y-3">{["Guia digital com 38 estratégias", "Exemplos, alertas e respostas prontas", "Acesso imediato após a compra", "Arquivo em alta qualidade"].map((item) => (<p key={item} className="flex items-center gap-3 font-semibold"><Check className="h-5 w-5 text-[#8B6205]" />{item}</p>))}</div><div className="text-center"><CtaButton onClick={goToCheckout} label="Quero acessar agora" dark /><p className="mt-4 flex items-center justify-center gap-2 text-xs text-[#6A5E47]"><ShieldCheck className="h-4 w-4" />Compra protegida e entrega digital</p></div></div>
+              <div className="p-7 md:p-9"><h3 className="text-2xl font-black">Kit visual para nunca perder um debate</h3><p className="mt-2 text-[#685D49]">Todas as 38 estratégias já decifradas.</p><div className="my-7 rounded-2xl border border-[#CDB77E] bg-[#EEE1C5]/75 px-4 py-7 text-center shadow-inner"><p className="text-sm font-bold uppercase tracking-widest text-[#786A4C]">Valor total <span>{REFERENCE_PRICE}</span> • por apenas</p><div className="mt-2 flex flex-wrap items-center justify-center gap-3"><p className="text-6xl font-black tracking-tight text-[#17130B]">{PRODUCT_PRICE}</p><span className="text-xs font-semibold text-[#52785B]/70">56% de desconto</span></div><p className="mt-2 text-sm font-semibold text-[#6D624E]">Pagamento único • garantia premium de 7 dias</p></div><div className="mb-8 space-y-3">{["Resumo ilustrado A Arte de Ter Razão", "Card de 38 respostas rápidas", "Os 10 truques mais usados em discussões", "Mapa Visual das Manipulações", "Garantia incondicional", "Acesso imediato"].map((item) => (<p key={item} className="flex items-center gap-3 font-semibold"><Check className="h-5 w-5 shrink-0 text-[#8B6205]" />{item}</p>))}</div><div className="text-center"><CtaButton onClick={goToCheckout} label="Quero acessar agora" dark /><p className="mt-4 flex items-center justify-center gap-2 text-xs text-[#6A5E47]"><ShieldCheck className="h-4 w-4" />Compra protegida e entrega digital</p></div></div>
             </article>
           </Reveal>
         </div>
