@@ -18,12 +18,12 @@ const PRODUCT_PRICE = (import.meta.env.VITE_PRODUCT_PRICE as string | undefined)
 const REFERENCE_PRICE = (import.meta.env.VITE_REFERENCE_PRICE as string | undefined)?.trim() || "R$ 64";
 
 const strategyPages = [
-  { src: "/produto-atualizado-pagina-03.png", alt: "Estratégia 2: troque o sentido da palavra" },
-  { src: "/produto-atualizado-pagina-08.png", alt: "Estratégia 7: faça perguntas até construir uma conclusão" },
-  { src: "/produto-atualizado-pagina-14.png", alt: "Estratégia 13: apresente duas opções, sendo uma inaceitável" },
-  { src: "/produto-atualizado-pagina-21.png", alt: "Estratégia 20: dê como aceito o que não foi discutido" },
-  { src: "/produto-atualizado-pagina-29.png", alt: "Estratégia 28: ridicularize para conquistar a plateia" },
-  { src: "/produto-atualizado-pagina-37.png", alt: "Estratégia 36: confunda com palavras complicadas" },
+  { src: "/produto-atualizado-pagina-03.webp", alt: "Estratégia 2: troque o sentido da palavra" },
+  { src: "/produto-atualizado-pagina-08.webp", alt: "Estratégia 7: faça perguntas até construir uma conclusão" },
+  { src: "/produto-atualizado-pagina-14.webp", alt: "Estratégia 13: apresente duas opções, sendo uma inaceitável" },
+  { src: "/produto-atualizado-pagina-21.webp", alt: "Estratégia 20: dê como aceito o que não foi discutido" },
+  { src: "/produto-atualizado-pagina-29.webp", alt: "Estratégia 28: ridicularize para conquistar a plateia" },
+  { src: "/produto-atualizado-pagina-37.webp", alt: "Estratégia 36: confunda com palavras complicadas" },
 ];
 
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -225,10 +225,13 @@ export default function App() {
           </div>
         </div>
         <img
-          src="/hero-xadrez.png"
+          src="/hero-xadrez.webp"
           alt=""
           aria-hidden="true"
           fetchPriority="high"
+          decoding="async"
+          width="1200"
+          height="675"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/35 to-black/90 lg:bg-gradient-to-r lg:from-black/95 lg:via-black/60 lg:to-black/25" />
@@ -238,7 +241,7 @@ export default function App() {
           </div>
           <div className="relative mx-auto flex h-[290px] w-full max-w-[620px] items-center justify-center sm:h-[390px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[570px] lg:max-w-[760px]">
             <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-[#D7A52A]/15 blur-3xl" />
-            <img src="/mockup-produto-transparente-v8.png" alt="Coleção completa Nunca Mais Perca Uma Discussão" fetchPriority="high" className="relative h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,.8)]" />
+            <img src="/mockup-produto-transparente-v8.webp" alt="Coleção completa Nunca Mais Perca Uma Discussão" fetchPriority="high" decoding="async" width="1200" height="900" className="relative h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,.8)]" />
           </div>
           <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
             <p className="mx-auto max-w-2xl text-center text-xl font-semibold leading-relaxed text-[#EEE8DC] drop-shadow-[0_2px_6px_rgba(0,0,0,1)] sm:text-2xl lg:text-xl lg:text-[#D4CEC2]">Um kit visual pronto para consulta e para que você esteja preparado quando tentarem te manipular.</p>
@@ -265,10 +268,10 @@ export default function App() {
           <Reveal className="text-center"><p className="eyebrow-light">Feito para consulta rápida</p><h2 className="section-title mx-auto max-w-3xl text-white">Pare de perceber a manipulação só depois que a conversa termina.</h2></Reveal>
           <div className="mt-10 grid grid-cols-2 gap-2.5 sm:mt-12 sm:gap-4 lg:grid-cols-4">
             {[
-              { icon: Eye, image: "/card-reconheca-truque.png", title: "Reconheça o truque", text: "Identifique padrões de desvio, pressão e distorção enquanto eles acontecem." },
-              { icon: MessageSquareQuote, image: "/card-tenha-resposta.png", title: "Tenha uma resposta", text: "Use modelos curtos para recuperar o foco sem entrar no jogo do outro." },
-              { icon: Target, image: "/card-volte-ponto.png", title: "Volte ao ponto", text: "Separe afirmação, prova e conclusão para não perder o fio da conversa." },
-              { icon: ShieldCheck, image: "/card-proteja-posicao.png", title: "Proteja sua posição", text: "Defenda seu argumento com firmeza, clareza e autocontrole." },
+              { icon: Eye, image: "/card-reconheca-truque.webp", title: "Reconheça o truque", text: "Identifique padrões de desvio, pressão e distorção enquanto eles acontecem." },
+              { icon: MessageSquareQuote, image: "/card-tenha-resposta.webp", title: "Tenha uma resposta", text: "Use modelos curtos para recuperar o foco sem entrar no jogo do outro." },
+              { icon: Target, image: "/card-volte-ponto.webp", title: "Volte ao ponto", text: "Separe afirmação, prova e conclusão para não perder o fio da conversa." },
+              { icon: ShieldCheck, image: "/card-proteja-posicao.webp", title: "Proteja sua posição", text: "Defenda seu argumento com firmeza, clareza e autocontrole." },
             ].map((item, index) => (
               <Reveal key={item.title} delay={index * 80} className="h-full"><article className="group relative flex min-h-[230px] h-full flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#151515] p-4 shadow-xl transition hover:-translate-y-1 hover:border-[#D7A52A]/60 sm:min-h-[320px] sm:rounded-3xl sm:p-6"><img src={item.image} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" /><div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/95" /><div className="relative flex items-center gap-2.5 sm:gap-3"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#D7A52A]/25 bg-black/55 text-[#F0BD3C] backdrop-blur-sm sm:h-12 sm:w-12 sm:rounded-xl"><item.icon className="h-5 w-5 sm:h-6 sm:w-6" /></div><h3 className="text-base font-black leading-tight text-white drop-shadow-lg sm:text-xl">{item.title}</h3></div><p className="relative mt-auto pt-6 text-xs leading-relaxed text-[#E2DCD1] drop-shadow-lg sm:text-sm">{item.text}</p></article></Reveal>
             ))}
@@ -337,7 +340,7 @@ export default function App() {
           <Reveal className="text-center"><p className="eyebrow">O que você recebe</p><h2 className="section-title mx-auto max-w-4xl">As 38 estratégias prontas e com exemplos reais.</h2><p className="section-copy mx-auto max-w-3xl">Um resumo ilustrado com todas as estratégias por página, pronto para abrir e aplicar.</p></Reveal>
           <Reveal className="mx-auto mt-12 max-w-5xl">
             <figure className="overflow-hidden rounded-[2rem] border border-[#B99A5C]/40 bg-white p-2 shadow-[0_24px_65px_rgba(73,52,18,.18)] sm:p-3">
-              <img src="/livro-premium-escritorio.png" alt="Livro Nunca Mais Perca Uma Discussão em um escritório executivo com tabuleiro de xadrez" loading="lazy" className="block aspect-[16/9] w-full rounded-[1.5rem] object-cover" />
+              <img src="/livro-premium-escritorio.webp" alt="Livro Nunca Mais Perca Uma Discussão em um escritório executivo com tabuleiro de xadrez" loading="lazy" decoding="async" className="block aspect-[16/9] w-full rounded-[1.5rem] object-cover" />
             </figure>
           </Reveal>
           <Reveal className="mx-auto mt-10 max-w-4xl text-center">
@@ -351,25 +354,25 @@ export default function App() {
           <Reveal className="text-center"><p className="eyebrow-light">Bônus exclusivos</p><h2 className="section-title mx-auto max-w-3xl text-white">Materiais que irão acelerar a sua habilidade.</h2></Reveal>
           <Reveal className="mx-auto mt-12 max-w-5xl">
             <article className="grid items-center gap-8 overflow-hidden rounded-[2rem] border border-[#D7A52A]/30 bg-[#15130F] p-3 shadow-2xl sm:p-5 md:grid-cols-[1.1fr_.9fr] md:gap-10 md:p-8">
-              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl"><img src="/bonus-01-cartas-resposta-rapida.png" alt="Bônus com 38 cartas de resposta rápida" loading="lazy" className="block aspect-square h-full w-full object-cover" /></div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl"><img src="/bonus-01-cartas-resposta-rapida.webp" alt="Bônus com 38 cartas de resposta rápida" loading="lazy" decoding="async" className="block aspect-square h-full w-full object-cover" /></div>
               <div className="px-3 pb-5 md:px-0 md:pb-0"><p className="text-xs font-black uppercase tracking-[.2em] text-[#F0BD3C]">Bônus 1 de 4</p><h3 className="mt-3 text-3xl font-black">38 Cartas de Resposta Rápida</h3><p className="mt-4 leading-relaxed text-[#BFB7AA]">Baralho que te prepara com respostas rápidas.</p><p className="mt-7 text-2xl font-black text-[#F0BD3C] line-through decoration-2">R$16</p></div>
             </article>
           </Reveal>
           <Reveal className="mx-auto mt-6 max-w-5xl">
             <article className="grid items-center gap-8 overflow-hidden rounded-[2rem] border border-[#D7A52A]/30 bg-[#15130F] p-3 shadow-2xl sm:p-5 md:grid-cols-[.9fr_1.1fr] md:gap-10 md:p-8">
-              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl md:order-2"><img src="/bonus-02-dez-truques.png" alt="Bônus com os 10 truques mais usados em discussões" loading="lazy" className="block aspect-square h-full w-full object-cover" /></div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl md:order-2"><img src="/bonus-02-dez-truques.webp" alt="Bônus com os 10 truques mais usados em discussões" loading="lazy" decoding="async" className="block aspect-square h-full w-full object-cover" /></div>
               <div className="px-3 pb-5 md:order-1 md:px-0 md:pb-0"><p className="text-xs font-black uppercase tracking-[.2em] text-[#F0BD3C]">Bônus 2 de 4</p><h3 className="mt-3 text-3xl font-black">Os 10 Truques Mais Usados em Discussões</h3><p className="mt-4 leading-relaxed text-[#BFB7AA]">Os truques mais usados por manipuladores. Mesmo que recebesse somente este bônus, você já estaria à frente da maioria das pessoas.</p><p className="mt-7 text-2xl font-black text-[#F0BD3C] line-through decoration-2">R$22</p></div>
             </article>
           </Reveal>
           <Reveal className="mx-auto mt-6 max-w-5xl">
             <article className="grid items-center gap-8 overflow-hidden rounded-[2rem] border border-[#D7A52A]/30 bg-[#15130F] p-3 shadow-2xl sm:p-5 md:grid-cols-[1.1fr_.9fr] md:gap-10 md:p-8">
-              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl"><img src="/bonus-03-mapa-manipulacoes.png" alt="Mapa visual das manipulações em uma discussão" loading="lazy" className="block aspect-square h-full w-full object-cover" /></div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl"><img src="/bonus-03-mapa-manipulacoes.webp" alt="Mapa visual das manipulações em uma discussão" loading="lazy" decoding="async" className="block aspect-square h-full w-full object-cover" /></div>
               <div className="px-3 pb-5 md:px-0 md:pb-0"><p className="text-xs font-black uppercase tracking-[.2em] text-[#F0BD3C]">Bônus 3 de 4</p><h3 className="mt-3 text-3xl font-black">Mapa Visual das Manipulações</h3><p className="mt-4 leading-relaxed text-[#BFB7AA]">Um mapa de consulta rápida para identificar padrões de manipulação, proteger seu argumento e recuperar o foco da conversa.</p><p className="mt-7 text-2xl font-black text-[#F0BD3C] line-through decoration-2">R$12</p></div>
             </article>
           </Reveal>
           <Reveal className="mx-auto mt-6 max-w-5xl">
             <article className="grid items-center gap-8 overflow-hidden rounded-[2rem] border border-[#D7A52A]/30 bg-[#15130F] p-3 shadow-2xl sm:p-5 md:grid-cols-[.9fr_1.1fr] md:gap-10 md:p-8">
-              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl md:order-2"><img src="/bonus-04-respostas-coringa.png" alt="Guia com 20 respostas coringa para ganhar tempo e pensar" loading="lazy" className="block aspect-square h-full w-full object-cover" /></div>
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#D7A52A]/30 bg-black shadow-2xl md:order-2"><img src="/bonus-04-respostas-coringa.webp" alt="Guia com 20 respostas coringa para ganhar tempo e pensar" loading="lazy" decoding="async" className="block aspect-square h-full w-full object-cover" /></div>
               <div className="px-3 pb-5 md:order-1 md:px-0 md:pb-0"><p className="text-xs font-black uppercase tracking-[.2em] text-[#F0BD3C]">Bônus 4 de 4</p><h3 className="mt-3 text-3xl font-black">20 Respostas Coringa</h3><p className="mt-4 leading-relaxed text-[#BFB7AA]">Respostas prontas para ganhar tempo, organizar o raciocínio, retomar o foco e testar argumentos antes de responder.</p><p className="mt-7 text-2xl font-black text-[#F0BD3C] line-through decoration-2">R$14</p></div>
             </article>
           </Reveal>
