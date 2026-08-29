@@ -7,8 +7,6 @@ import {
   ChevronRight,
   Eye,
   MessageSquareQuote,
-  Pencil,
-  Save,
   ShieldCheck,
   Target,
   X,
@@ -147,8 +145,6 @@ export default function App() {
   const [exitOfferOpen, setExitOfferOpen] = useState(false);
   const [exitOfferEligible, setExitOfferEligible] = useState(false);
   const [exitOfferShown, setExitOfferShown] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const pageRef = useRef<HTMLDivElement>(null);
   const publicFiguresRef = useRef<HTMLDivElement>(null);
   const scrollPublicFigures = (direction: number) => publicFiguresRef.current?.scrollBy({ left: direction * 320, behavior: "smooth" });
   const scrollToOffer = () => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -216,44 +212,10 @@ export default function App() {
     };
   }, [exitOfferEligible, exitOfferShown]);
 
-  useEffect(() => {
-    const root = pageRef.current;
-    if (!root) return;
-    const storageKey = "arte-razao-text-edits";
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "{}") as Record<string, string>;
-    const elements = Array.from(root.querySelectorAll<HTMLElement>("h1, h2, h3, h4, p, span")).filter((element) => !element.children.length && !element.closest("button") && !element.hasAttribute("aria-live"));
-    const cleanups: Array<() => void> = [];
-
-    elements.forEach((element, index) => {
-      const original = element.dataset.originalText || element.textContent || "";
-      element.dataset.originalText = original;
-      let hash = 0;
-      for (const character of original) hash = ((hash << 5) - hash + character.charCodeAt(0)) | 0;
-      const key = `${element.tagName.toLowerCase()}-${Math.abs(hash)}-${index}`;
-      element.dataset.editKey = key;
-      if (saved[key] !== undefined && element.textContent !== saved[key]) element.textContent = saved[key];
-      element.contentEditable = editMode ? "true" : "false";
-      element.spellcheck = editMode;
-      if (editMode) element.dataset.liveEditable = "true";
-      else delete element.dataset.liveEditable;
-
-      const persist = () => {
-        const current = JSON.parse(localStorage.getItem(storageKey) || "{}") as Record<string, string>;
-        current[key] = element.textContent || "";
-        localStorage.setItem(storageKey, JSON.stringify(current));
-      };
-      element.addEventListener("input", persist);
-      cleanups.push(() => element.removeEventListener("input", persist));
-    });
-
-    return () => cleanups.forEach((cleanup) => cleanup());
-  }, [editMode]);
-
   return (
-    <div ref={pageRef} className="min-h-screen bg-[#0B0B0B] text-white antialiased">
+    <div className="min-h-screen bg-[#0B0B0B] text-white antialiased">
       <CheckoutNotice open={checkoutNoticeOpen} onClose={() => setCheckoutNoticeOpen(false)} />
       <ExitOffer open={exitOfferOpen} onClose={() => setExitOfferOpen(false)} onAccept={goToExitCheckout} />
-      <button type="button" onClick={() => setEditMode((active) => !active)} className={`fixed bottom-5 right-5 z-[100] flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-black shadow-2xl transition ${editMode ? "border-[#F0CE78] bg-[#D7A52A] text-[#17130B]" : "border-[#D7A52A]/50 bg-[#111] text-[#F0BD3C] hover:border-[#D7A52A]"}`} aria-pressed={editMode}>{editMode ? <Save className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}{editMode ? "Salvar textos" : "Editar textos"}</button>
 
       <header className="relative overflow-hidden border-b border-[#D7A52A]/20 bg-[#080808]">
         <div className="relative z-30 border-b border-[#7E160F] bg-[#B3261E] px-4 py-3 text-white">
